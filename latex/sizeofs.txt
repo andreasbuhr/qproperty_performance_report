@@ -1,0 +1,14 @@
+name value
+sizeof(int) 4
+sizeof(QObject) 16
+sizeof(QUntypedPropertyData) 1
+sizeof(QPropertyData<int>) 4
+sizeof(QProperty<int>) 16
+sizeof(QObjectBindableProperty<void,int,0>) 4
+sizeof(QObjectCompatProperty<void,int,0,0>) 4
+sizeof(QObjectComputedProperty<void,int,0,0>) 1
+sizeof(QPropertyBindingData) 8
+sizeof(QPropertyObserverBase) 24
+sizeof(QPropertyObserver) 24
+sizeof(BindingFunctionVTable) 32
+sizeof(QPropertyBindingPrivate) 192

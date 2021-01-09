@@ -1,0 +1,40 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+% for pgftable https://ctan.space-pro.be/tex-archive/graphics/pgf/contrib/pgfplots/doc/pgfplotstable.pdf
+\usepackage{pgfplotstable}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{colortbl}
+\pgfplotsset{compat=1.16}
+
+\title{QProperty Performance Report}
+\author{Andreas Buhr}
+\date{\today}
+
+\begin{document}
+\maketitle
+\section{Read Performance}
+\subsection{Read From Old-Style Property}
+\subsection{Read From QProperty}
+\subsubsection{Read From Value}
+\subsubsection{Read From Binding}
+\subsection{Read From QObjectBindableProperty}
+\subsubsection{Read From Value}
+\subsubsection{Read From Binding}
+\section{Write Performance}
+\subsection{Write to Old-Style Property}
+\subsection{Write to QProperty}
+\subsubsection{Without Observers}
+\subsubsection{With Observers}
+\subsection{Write to QObjectBindableProperty}
+\subsubsection{Without Observers}
+\subsubsection{With Observers}
+\section{Memory Requirements}
+\pgfplotstabletypeset[
+    columns/name/.style={column type=|l, string type %
+    },
+    columns/value/.style={column type=|r|},
+]{sizeofs.txt}
+\end{document}
+
