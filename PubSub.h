@@ -27,6 +27,8 @@ public:
     UntypedProperty& operator=(UntypedProperty&&) = delete;
     ~UntypedProperty();
 
+    int numDownstreamObservers() const { return downstreamBindings_.size(); }
+
 protected:
     void markDirty() const;
     void potentialEagerEvaluation();
@@ -88,10 +90,11 @@ private:
 template<typename T>
 class Property : public UntypedProperty {
 public:
+    Property() = default;
     Property(T value) : value_(value) {}
     void setValue(T value);
 
-    T getValue();
+    T value();
 
     template<typename Callable, typename... Probs>
     void setBinding(const Callable& c, Probs&&... args);
@@ -132,7 +135,7 @@ void Binding<T, Callable, Probs...>::evaluation() {
     if(dirty_){
         Property<T>* myprop = (Property<T>*) myProperty_;
         myprop->value_ = std::apply([this](Probs... p){
-            return c_(p.getValue() ...);
+            return c_(p.value() ...);
         }, upstreamProperties_);
         dirty_ = false;
     }
@@ -181,7 +184,7 @@ void Property<T>::setValue(T value) {
 }
 
 template<typename T>
-T Property<T>::getValue() {
+T Property<T>::value() {
     evaluate();
     return value_;
 }
@@ -189,8 +192,13 @@ T Property<T>::getValue() {
 template<typename T>
 template<typename Callable, typename... Probs>
 void Property<T>::setBinding(const Callable &c, Probs &&... args) {
-    using result_type = decltype(c(args.getValue()...));
+    using result_type = decltype(c(args.value()...));
     static_assert(std::is_same_v<result_type, T>, "incompatible return type");
+    static bool printed = false;
+    if(!printed){
+        std::cout << sizeof(Binding<result_type, Callable, Probs...>) << std::endl;
+        printed=true;
+    }
     myBinding_.reset(new Binding<result_type, Callable, Probs...>{this, c, args...});
 }
 
