@@ -11,5 +11,5 @@ set(CMAKE_AUTOUIC ON)
 find_package(Qt6 REQUIRED COMPONENTS Core)
 find_package(OpenMP)
 
-add_executable(main main.cpp)
+add_executable(main main.cpp PubSub.h)
 target_link_libraries(main Qt6::Core Qt::CorePrivate OpenMP::OpenMP_CXX)

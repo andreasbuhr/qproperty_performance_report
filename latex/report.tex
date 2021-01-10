@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 
+\usepackage{pgfplots}
+
 % for pgftable https://ctan.space-pro.be/tex-archive/graphics/pgf/contrib/pgfplots/doc/pgfplotstable.pdf
 \usepackage{pgfplotstable}
 \usepackage{booktabs}
@@ -36,5 +38,20 @@
     },
     columns/value/.style={column type=|r|},
 ]{sizeofs.txt}
+
+    \begin{tikzpicture}
+        \begin{axis}[
+        title=Memory usage per binding,
+        xlabel=number of upstream properties,
+        ylabel=memory usage in bytes,
+        ]
+            \addplot table {binding_memusage.txt};
+            \end{axis}
+    \end{tikzpicture}
+
+\pgfplotstabletypeset[
+    columns/connections/.style={column type=|l},
+    columns/memory/.style={column type=|r|},
+]{binding_memusage.txt}
 \end{document}
 
