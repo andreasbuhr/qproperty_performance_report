@@ -40,6 +40,8 @@ static double getMemUsage() {
     return resident_set * 1024;
 }
 
-const int num_samples = 10000000;
+//const int num_samples = 5000000; // 6 per cent
+const int num_samples = 500000; // 0.6 per cent
+//const int num_samples = 50000000; // 60 per cent
 
 #endif //QPROPERTY_PERFORMANCE_REPORT_CONFIGURATION_H

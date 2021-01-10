@@ -46,6 +46,7 @@
         ylabel=memory usage in bytes,
         ]
             \addplot table {binding_memusage.txt};
+            \addplot table {newbinding_memusage.txt};
             \end{axis}
     \end{tikzpicture}
 
@@ -53,5 +54,42 @@
     columns/connections/.style={column type=|l},
     columns/memory/.style={column type=|r|},
 ]{binding_memusage.txt}
+
+
+    \begin{tikzpicture}
+        \begin{axis}[
+                title=Evaluation time of non-dirty binding (cold cache),
+        xlabel=number of upstream properties,
+        ylabel=time for nondirty read in ns,
+        ]
+            \addplot table {binding_nondirtyread.txt};
+            \addplot table {newbinding_nondirtyread.txt};
+            \end{axis}
+    \end{tikzpicture}
+
+
+\begin{tikzpicture}
+    \begin{axis}[
+        title=Evaluation time write and notify (cold cache),
+        xlabel=number of upstream properties,
+        ylabel=time for write and notify in ns,
+    ]
+        \addplot table {binding_setnotify.txt};
+        \addplot table {newbinding_setnotify.txt};
+    \end{axis}
+\end{tikzpicture}
+
+
+\begin{tikzpicture}
+    \begin{axis}[
+        title=Evaluation time of dirty binding (cold cache),
+        xlabel=number of upstream properties,
+        ylabel=time for dirty read in ns,
+    ]
+        \addplot table {binding_dirtyread.txt};
+        \addplot table {newbinding_dirtyread.txt};
+    \end{axis}
+\end{tikzpicture}
+
 \end{document}
 

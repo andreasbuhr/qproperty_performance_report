@@ -170,8 +170,11 @@ void Property<T>::setValue(T value) {
         publisher_->removeBinding();
 
     value_ = value;
-    if(publisher_.get() != nullptr)
+    
+    if(publisher_.get() != nullptr){
         publisher_->markDirty();
+        //publisher_->potentialEagerEvaluation();
+    }
 }
 
 template<typename T>
@@ -187,11 +190,7 @@ template<typename Callable, typename... Probs>
 void Property<T>::setBinding(const Callable &c, Probs &&... args) {
     using result_type = decltype(c(args.value()...));
     static_assert(std::is_same_v<result_type, T>, "incompatible return type");
-    static bool printed = false;
-    if(!printed){
-        std::cout << sizeof(Binding<result_type, Callable, Probs...>) << std::endl;
-        printed=true;
-    }
+
     if(publisher_.get() == nullptr)
         publisher_.reset(new UntypedPublisher);
 
