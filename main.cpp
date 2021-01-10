@@ -19,6 +19,7 @@
 #include "configuration.h"
 
 #include "qproperty_memory_measurement.h"
+#include "property_memory_measurement.h"
 
 void print_sizeofs(){
     std::ofstream sizeofs("sizeofs.txt");
@@ -47,6 +48,7 @@ void print_sizeofs(){
 
 int main(){
     print_sizeofs();
+    print_newbinding_memusage();
     print_binding_memusage();
 
     double baseline = getMemUsage();

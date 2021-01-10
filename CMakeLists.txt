@@ -11,5 +11,5 @@ set(CMAKE_AUTOUIC ON)
 find_package(Qt6 REQUIRED COMPONENTS Core)
 find_package(OpenMP)
 
-add_executable(main main.cpp PubSub.h qproperty_memory_measurement.cpp qproperty_memory_measurement.h configuration.h)
+add_executable(main main.cpp PubSub.h qproperty_memory_measurement.cpp qproperty_memory_measurement.h property_memory_measurement.cpp property_memory_measurement.h configuration.h PubSub.cpp)
 target_link_libraries(main Qt6::Core Qt::CorePrivate OpenMP::OpenMP_CXX)

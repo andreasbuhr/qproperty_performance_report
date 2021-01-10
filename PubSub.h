@@ -18,18 +18,19 @@ class Binding;
 template<typename T>
 class Property;
 
-class UntypedProperty {
+class UntypedPublisher {
 public:
-    UntypedProperty() = default;
-    UntypedProperty(const UntypedProperty&) = delete;
-    UntypedProperty(UntypedProperty&&) = delete;
-    UntypedProperty& operator=(const UntypedProperty&) = delete;
-    UntypedProperty& operator=(UntypedProperty&&) = delete;
-    ~UntypedProperty();
+    UntypedPublisher() = default;
+    UntypedPublisher(const UntypedPublisher&) = delete;
+    UntypedPublisher(UntypedPublisher&&) = delete;
+    UntypedPublisher& operator=(const UntypedPublisher&) = delete;
+    UntypedPublisher& operator=(UntypedPublisher&&) = delete;
+    ~UntypedPublisher();
 
     int numDownstreamObservers() const { return downstreamBindings_.size(); }
+    void removeBinding();
+    void setBinding(UntypedBinding *binding);
 
-protected:
     void markDirty() const;
     void potentialEagerEvaluation();
     void evaluate();
@@ -38,6 +39,9 @@ protected:
 
 private:
     friend class UntypedBinding;
+    friend class UntypedProperty;
+    template<typename T2>
+    friend class Property;
 
     std::vector<UntypedBinding*> downstreamBindings_;
     void addDownstreamBinding(UntypedBinding* binding);
@@ -45,10 +49,12 @@ private:
 
 };
 
+class UntypedProperty;
+
 class UntypedBinding {
 public:
     UntypedBinding() = delete;
-    UntypedBinding(UntypedProperty* const myProperty);
+    UntypedBinding(UntypedProperty *const myProperty);
     UntypedBinding(const UntypedBinding&) = delete;
     UntypedBinding(UntypedBinding&&) = delete;
     UntypedBinding& operator=(const UntypedBinding&) = delete;
@@ -56,8 +62,8 @@ public:
     virtual ~UntypedBinding();
 
 protected:
-    void connectToUpstreamProperty(UntypedProperty* prop);
-    void disconnectFromPublisher(UntypedProperty* prop);
+    void connectToUpstreamProperty(UntypedProperty *prop);
+    void disconnectFromUpstreamProperty(UntypedProperty *prop);
 
     bool dirty_ = true;
     bool broken_ = false; // broken dependency because of deleted publisher
@@ -66,7 +72,7 @@ protected:
     UntypedProperty* const myProperty_;
 
 private:
-    friend class UntypedProperty;
+    friend class UntypedPublisher;
 
     void markDirty();
     void potentialEagerEvaluation();
@@ -87,6 +93,19 @@ private:
     std::tuple<Props...> upstreamProperties_;
 };
 
+
+class UntypedProperty{
+public:
+    void markDirty() const;
+    void potentialEagerEvaluation() const;
+
+    void addDownstreamBinding(UntypedBinding* binding);
+    void removeDownstreamBinding(UntypedBinding* binding);
+
+protected:
+    std::unique_ptr<UntypedPublisher> publisher_;
+};
+
 template<typename T>
 class Property : public UntypedProperty {
 public:
@@ -98,6 +117,8 @@ public:
 
     template<typename Callable, typename... Probs>
     void setBinding(const Callable& c, Probs&&... args);
+
+    int numDownstreamObservers() const;
 
 private:
     template<typename T2, typename Callable, typename... Probs>
@@ -123,7 +144,7 @@ template<typename T, typename Callable, typename... Probs>
 Binding<T, Callable, Probs...>::~Binding() {
     // disconnect from publishers:
     std::apply([this](Probs... p){
-        (disconnectFromPublisher(&p), ...);
+        (disconnectFromUpstreamProperty(&p), ...);
     }, upstreamProperties_);
 }
 
@@ -141,51 +162,23 @@ void Binding<T, Callable, Probs...>::evaluation() {
     }
 }
 
-void UntypedBinding::markDirty() {
-    dirty_ = true;
-    myProperty_->markDirty();
-}
-
-void UntypedBinding::connectToUpstreamProperty(UntypedProperty *prop) {
-    prop->addDownstreamBinding(this);
-}
-
-void UntypedBinding::disconnectFromPublisher(UntypedProperty *prop) {
-    prop->removeDownstreamBinding(this);
-}
-
-void UntypedBinding::markBroken() {
-    broken_ = true;
-}
-
-void UntypedBinding::potentialEagerEvaluation() {
-    if (eagerEvaluation_){
-        evaluation();
-    }
-    myProperty_->potentialEagerEvaluation();
-}
-
-UntypedBinding::~UntypedBinding() {
-
-}
-
-UntypedBinding::UntypedBinding(UntypedProperty *const myProperty) : myProperty_(myProperty) {
-
-}
 
 
 template<typename T>
 void Property<T>::setValue(T value) {
-    if (myBinding_.get() != nullptr){
-        myBinding_.reset();
-    }
+    if(publisher_.get() != nullptr)
+        publisher_->removeBinding();
+
     value_ = value;
-    markDirty();
+    if(publisher_.get() != nullptr)
+        publisher_->markDirty();
 }
 
 template<typename T>
 T Property<T>::value() {
-    evaluate();
+    if(publisher_.get() != nullptr)
+        publisher_->evaluate();
+
     return value_;
 }
 
@@ -199,41 +192,17 @@ void Property<T>::setBinding(const Callable &c, Probs &&... args) {
         std::cout << sizeof(Binding<result_type, Callable, Probs...>) << std::endl;
         printed=true;
     }
-    myBinding_.reset(new Binding<result_type, Callable, Probs...>{this, c, args...});
+    if(publisher_.get() == nullptr)
+        publisher_.reset(new UntypedPublisher);
+
+    publisher_->setBinding(new Binding<result_type, Callable, Probs...>{this, c, args...});
 }
 
-UntypedProperty::~UntypedProperty() {
-    for( auto* s : downstreamBindings_){
-        s->markBroken();
-    }
-}
-
-void UntypedProperty::markDirty() const {
-    for( auto* s : downstreamBindings_){
-        s->markDirty();
-    }
-}
-
-void UntypedProperty::addDownstreamBinding(UntypedBinding *binding) {
-    if(std::find(downstreamBindings_.begin(), downstreamBindings_.end(), binding) == downstreamBindings_.end())
-        downstreamBindings_.push_back(binding);
-}
-
-void UntypedProperty::removeDownstreamBinding(UntypedBinding *binding) {
-    auto it = std::remove(downstreamBindings_.begin(), downstreamBindings_.end(), binding);
-    downstreamBindings_.erase(it);
-}
-
-void UntypedProperty::evaluate() {
-    if (myBinding_.get() != nullptr){
-        myBinding_->evaluation();
-    }
-}
-
-void UntypedProperty::potentialEagerEvaluation() {
-    for( auto* s : downstreamBindings_){
-        s->potentialEagerEvaluation();
-    }
+template<typename T>
+int Property<T>::numDownstreamObservers() const {
+    if(publisher_.get() != nullptr)
+        return publisher_->numDownstreamObservers();
+    return 0;
 }
 
 #endif //QPROPERTY_PERFORMANCE_REPORT_PUBSUB_H
