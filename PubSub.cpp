@@ -57,7 +57,7 @@ void UntypedPublisher::addDownstreamBinding(UntypedBinding *binding) {
 
 void UntypedPublisher::removeDownstreamBinding(UntypedBinding *binding) {
     auto it = std::remove(downstreamBindings_.begin(), downstreamBindings_.end(), binding);
-    downstreamBindings_.erase(it);
+    downstreamBindings_.erase(it, downstreamBindings_.end());
 }
 
 void UntypedPublisher::evaluate() {

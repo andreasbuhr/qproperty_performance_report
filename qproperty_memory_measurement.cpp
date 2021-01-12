@@ -68,6 +68,15 @@ auto memory_usage_for_binding_0(){
 }
 
 auto memory_usage_for_binding_1(){
+    std::vector<int> access_pattern;
+    int num_upstream = 1;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<QProperty<int>> properties(num_samples);
     for(auto& p : properties)
         p = 5;
@@ -76,7 +85,7 @@ auto memory_usage_for_binding_1(){
     double starttime = omp_get_wtime();
     for(int i = 0; i < num_samples - 0; ++i){
         QProperty<int>
-                &a=properties[i]
+                &a=properties[access_pattern[num_upstream*i+0]]
         ;
         properties2[i].setBinding(
                 [&](){
@@ -123,6 +132,15 @@ auto memory_usage_for_binding_1(){
 }
 
 auto memory_usage_for_binding_2(){
+    std::vector<int> access_pattern;
+    int num_upstream = 2;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<QProperty<int>> properties(num_samples);
     for(auto& p : properties)
         p = 5;
@@ -131,8 +149,8 @@ auto memory_usage_for_binding_2(){
     double starttime = omp_get_wtime();
     for(int i = 0; i < num_samples - 1; ++i){
         QProperty<int>
-                &a=properties[i],
-                &b=properties[i+1]
+                &a=properties[access_pattern[num_upstream*i+0]],
+                &b=properties[access_pattern[num_upstream*i+1]]
         ;
         properties2[i].setBinding(
                 [&](){
@@ -179,6 +197,15 @@ auto memory_usage_for_binding_2(){
 }
 
 auto memory_usage_for_binding_3(){
+    std::vector<int> access_pattern;
+    int num_upstream = 3;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<QProperty<int>> properties(num_samples);
     for(auto& p : properties)
         p = 5;
@@ -187,9 +214,9 @@ auto memory_usage_for_binding_3(){
     double starttime = omp_get_wtime();
     for(int i = 0; i < num_samples - 2; ++i){
         QProperty<int>
-                &a=properties[i],
-                &b=properties[i+1],
-                &c=properties[i+2]
+                &a=properties[access_pattern[num_upstream*i+0]],
+                &b=properties[access_pattern[num_upstream*i+1]],
+                &c=properties[access_pattern[num_upstream*i+2]]
         ;
         properties2[i].setBinding(
                 [&](){
@@ -236,6 +263,15 @@ auto memory_usage_for_binding_3(){
 }
 
 auto memory_usage_for_binding_4(){
+    std::vector<int> access_pattern;
+    int num_upstream = 4;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<QProperty<int>> properties(num_samples);
     for(auto& p : properties)
         p = 5;
@@ -244,10 +280,10 @@ auto memory_usage_for_binding_4(){
     double starttime = omp_get_wtime();
     for(int i = 0; i < num_samples - 3; ++i){
         QProperty<int>
-                &a=properties[i],
-                &b=properties[i+1],
-                &c=properties[i+2],
-                &d=properties[i+3]
+                &a=properties[access_pattern[num_upstream*i+0]],
+                &b=properties[access_pattern[num_upstream*i+1]],
+                &c=properties[access_pattern[num_upstream*i+2]],
+                &d=properties[access_pattern[num_upstream*i+3]]
         ;
         properties2[i].setBinding(
                 [&](){
@@ -295,6 +331,15 @@ auto memory_usage_for_binding_4(){
 
 
 auto memory_usage_for_binding_5(){
+    std::vector<int> access_pattern;
+    int num_upstream = 5;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<QProperty<int>> properties(num_samples);
     for(auto& p : properties)
         p = 5;
@@ -303,11 +348,11 @@ auto memory_usage_for_binding_5(){
     double starttime = omp_get_wtime();
     for(int i = 0; i < num_samples - 4; ++i){
         QProperty<int>
-                &a=properties[i],
-                &b=properties[i+1],
-                &c=properties[i+2],
-                &d=properties[i+3],
-                &e=properties[i+4]
+                &a=properties[access_pattern[num_upstream*i+0]],
+                &b=properties[access_pattern[num_upstream*i+1]],
+                &c=properties[access_pattern[num_upstream*i+2]],
+                &d=properties[access_pattern[num_upstream*i+3]],
+                &e=properties[access_pattern[num_upstream*i+4]]
         ;
         properties2[i].setBinding(
                 [&](){
@@ -354,6 +399,15 @@ auto memory_usage_for_binding_5(){
 }
 
 auto memory_usage_for_binding_6(){
+    std::vector<int> access_pattern;
+    int num_upstream = 6;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<QProperty<int>> properties(num_samples);
     for(auto& p : properties)
         p = 5;
@@ -362,12 +416,12 @@ auto memory_usage_for_binding_6(){
     double starttime = omp_get_wtime();
     for(int i = 0; i < num_samples - 5; ++i){
         QProperty<int>
-                &a=properties[i],
-                &b=properties[i+1],
-                &c=properties[i+2],
-                &d=properties[i+3],
-                &e=properties[i+4],
-                &f=properties[i+5]
+                &a=properties[access_pattern[num_upstream*i+0]],
+                &b=properties[access_pattern[num_upstream*i+1]],
+                &c=properties[access_pattern[num_upstream*i+2]],
+                &d=properties[access_pattern[num_upstream*i+3]],
+                &e=properties[access_pattern[num_upstream*i+4]],
+                &f=properties[access_pattern[num_upstream*i+5]]
         ;
         properties2[i].setBinding(
                 [&](){
@@ -415,6 +469,15 @@ auto memory_usage_for_binding_6(){
 }
 
 auto memory_usage_for_binding_7(){
+    std::vector<int> access_pattern;
+    int num_upstream = 7;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<QProperty<int>> properties(num_samples);
     for(auto& p : properties)
         p = 5;
@@ -423,13 +486,13 @@ auto memory_usage_for_binding_7(){
     double starttime = omp_get_wtime();
     for(int i = 0; i < num_samples - 6; ++i){
         QProperty<int>
-                &a=properties[i],
-                &b=properties[i+1],
-                &c=properties[i+2],
-                &d=properties[i+3],
-                &e=properties[i+4],
-                &f=properties[i+5],
-                &g=properties[i+6]
+                &a=properties[access_pattern[num_upstream*i+0]],
+                &b=properties[access_pattern[num_upstream*i+1]],
+                &c=properties[access_pattern[num_upstream*i+2]],
+                &d=properties[access_pattern[num_upstream*i+3]],
+                &e=properties[access_pattern[num_upstream*i+4]],
+                &f=properties[access_pattern[num_upstream*i+5]],
+                &g=properties[access_pattern[num_upstream*i+6]]
         ;
         properties2[i].setBinding(
                 [&](){
@@ -477,6 +540,15 @@ auto memory_usage_for_binding_7(){
 }
 
 auto memory_usage_for_binding_8(){
+    std::vector<int> access_pattern;
+    int num_upstream = 8;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<QProperty<int>> properties(num_samples);
     for(auto& p : properties)
         p = 5;
@@ -485,14 +557,14 @@ auto memory_usage_for_binding_8(){
     double starttime = omp_get_wtime();
     for(int i = 0; i < num_samples - 7; ++i){
         QProperty<int>
-                &a=properties[i],
-                &b=properties[i+1],
-                &c=properties[i+2],
-                &d=properties[i+3],
-                &e=properties[i+4],
-                &f=properties[i+5],
-                &g=properties[i+6],
-                &h=properties[i+7]
+                &a=properties[access_pattern[num_upstream*i+0]],
+                &b=properties[access_pattern[num_upstream*i+1]],
+                &c=properties[access_pattern[num_upstream*i+2]],
+                &d=properties[access_pattern[num_upstream*i+3]],
+                &e=properties[access_pattern[num_upstream*i+4]],
+                &f=properties[access_pattern[num_upstream*i+5]],
+                &g=properties[access_pattern[num_upstream*i+6]],
+                &h=properties[access_pattern[num_upstream*i+7]]
         ;
         properties2[i].setBinding(
                 [&](){
@@ -540,6 +612,15 @@ auto memory_usage_for_binding_8(){
 }
 
 auto memory_usage_for_binding_9(){
+    std::vector<int> access_pattern;
+    int num_upstream = 9;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<QProperty<int>> properties(num_samples);
     for(auto& p : properties)
         p = 5;
@@ -548,15 +629,15 @@ auto memory_usage_for_binding_9(){
     double starttime = omp_get_wtime();
     for(int i = 0; i < num_samples - 8; ++i){
         QProperty<int>
-                &a=properties[i],
-                &b=properties[i+1],
-                &c=properties[i+2],
-                &d=properties[i+3],
-                &e=properties[i+4],
-                &f=properties[i+5],
-                &g=properties[i+6],
-                &h=properties[i+7],
-                &j=properties[i+8]
+                &a=properties[access_pattern[num_upstream*i+0]],
+                &b=properties[access_pattern[num_upstream*i+1]],
+                &c=properties[access_pattern[num_upstream*i+2]],
+                &d=properties[access_pattern[num_upstream*i+3]],
+                &e=properties[access_pattern[num_upstream*i+4]],
+                &f=properties[access_pattern[num_upstream*i+5]],
+                &g=properties[access_pattern[num_upstream*i+6]],
+                &h=properties[access_pattern[num_upstream*i+7]],
+                &j=properties[access_pattern[num_upstream*i+8]]
         ;
         properties2[i].setBinding(
                 [&](){
@@ -605,6 +686,15 @@ auto memory_usage_for_binding_9(){
 
 
 auto memory_usage_for_binding_10(){
+    std::vector<int> access_pattern;
+    int num_upstream = 10;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<QProperty<int>> properties(num_samples);
     for(auto& p : properties)
         p = 5;
@@ -613,16 +703,16 @@ auto memory_usage_for_binding_10(){
     double starttime = omp_get_wtime();
     for(int i = 0; i < num_samples - 9; ++i){
         QProperty<int>
-                &a=properties[i],
-                &b=properties[i+1],
-                &c=properties[i+2],
-                &d=properties[i+3],
-                &e=properties[i+4],
-                &f=properties[i+5],
-                &g=properties[i+6],
-                &h=properties[i+7],
-                &j=properties[i+8],
-                &k=properties[i+9]
+                &a=properties[access_pattern[num_upstream*i+0]],
+                &b=properties[access_pattern[num_upstream*i+1]],
+                &c=properties[access_pattern[num_upstream*i+2]],
+                &d=properties[access_pattern[num_upstream*i+3]],
+                &e=properties[access_pattern[num_upstream*i+4]],
+                &f=properties[access_pattern[num_upstream*i+5]],
+                &g=properties[access_pattern[num_upstream*i+6]],
+                &h=properties[access_pattern[num_upstream*i+7]],
+                &j=properties[access_pattern[num_upstream*i+8]],
+                &k=properties[access_pattern[num_upstream*i+9]]
         ;
         properties2[i].setBinding(
                 [&](){
@@ -671,6 +761,15 @@ auto memory_usage_for_binding_10(){
 
 
 auto memory_usage_for_binding_11(){
+    std::vector<int> access_pattern;
+    int num_upstream = 11;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<QProperty<int>> properties(num_samples);
     for(auto& p : properties)
         p = 5;
@@ -679,17 +778,17 @@ auto memory_usage_for_binding_11(){
     double starttime = omp_get_wtime();
     for(int i = 0; i < num_samples - 10; ++i){
         QProperty<int>
-                &a=properties[i],
-                &b=properties[i+1],
-                &c=properties[i+2],
-                &d=properties[i+3],
-                &e=properties[i+4],
-                &f=properties[i+5],
-                &g=properties[i+6],
-                &h=properties[i+7],
-                &j=properties[i+8],
-                &k=properties[i+9],
-                &l=properties[i+10]
+                &a=properties[access_pattern[num_upstream*i+0]],
+                &b=properties[access_pattern[num_upstream*i+1]],
+                &c=properties[access_pattern[num_upstream*i+2]],
+                &d=properties[access_pattern[num_upstream*i+3]],
+                &e=properties[access_pattern[num_upstream*i+4]],
+                &f=properties[access_pattern[num_upstream*i+5]],
+                &g=properties[access_pattern[num_upstream*i+6]],
+                &h=properties[access_pattern[num_upstream*i+7]],
+                &j=properties[access_pattern[num_upstream*i+8]],
+                &k=properties[access_pattern[num_upstream*i+9]],
+                &l=properties[access_pattern[num_upstream*i+10]]
         ;
         properties2[i].setBinding(
                 [&](){
@@ -739,6 +838,15 @@ auto memory_usage_for_binding_11(){
 
 
 auto memory_usage_for_binding_12(){
+    std::vector<int> access_pattern;
+    int num_upstream = 12;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<QProperty<int>> properties(num_samples);
     for(auto& p : properties)
         p = 5;
@@ -747,18 +855,18 @@ auto memory_usage_for_binding_12(){
     double starttime = omp_get_wtime();
     for(int i = 0; i < num_samples - 11; ++i){
         QProperty<int>
-                &a=properties[i],
-                &b=properties[i+1],
-                &c=properties[i+2],
-                &d=properties[i+3],
-                &e=properties[i+4],
-                &f=properties[i+5],
-                &g=properties[i+6],
-                &h=properties[i+7],
-                &j=properties[i+8],
-                &k=properties[i+9],
-                &l=properties[i+10],
-                &m=properties[i+11]
+                &a=properties[access_pattern[num_upstream*i+0]],
+                &b=properties[access_pattern[num_upstream*i+1]],
+                &c=properties[access_pattern[num_upstream*i+2]],
+                &d=properties[access_pattern[num_upstream*i+3]],
+                &e=properties[access_pattern[num_upstream*i+4]],
+                &f=properties[access_pattern[num_upstream*i+5]],
+                &g=properties[access_pattern[num_upstream*i+6]],
+                &h=properties[access_pattern[num_upstream*i+7]],
+                &j=properties[access_pattern[num_upstream*i+8]],
+                &k=properties[access_pattern[num_upstream*i+9]],
+                &l=properties[access_pattern[num_upstream*i+10]],
+                &m=properties[access_pattern[num_upstream*i+11]]
         ;
         properties2[i].setBinding(
                 [&](){
@@ -809,6 +917,15 @@ auto memory_usage_for_binding_12(){
 
 
 auto memory_usage_for_binding_16(){
+    std::vector<int> access_pattern;
+    int num_upstream = 16;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<QProperty<int>> properties(num_samples);
     for(auto& p : properties)
         p = 5;
@@ -817,22 +934,22 @@ auto memory_usage_for_binding_16(){
     double starttime = omp_get_wtime();
     for(int i = 0; i < num_samples - 15; ++i){
         QProperty<int>
-                &a=properties[i],
-                &b=properties[i+1],
-                &c=properties[i+2],
-                &d=properties[i+3],
-                &e=properties[i+4],
-                &f=properties[i+5],
-                &g=properties[i+6],
-                &h=properties[i+7],
-                &j=properties[i+8],
-                &k=properties[i+9],
-                &l=properties[i+10],
-                &m=properties[i+11],
-                &n=properties[i+12],
-                &o=properties[i+13],
-                &p=properties[i+14],
-                &q=properties[i+15]
+                &a=properties[access_pattern[num_upstream*i+0]],
+                &b=properties[access_pattern[num_upstream*i+1]],
+                &c=properties[access_pattern[num_upstream*i+2]],
+                &d=properties[access_pattern[num_upstream*i+3]],
+                &e=properties[access_pattern[num_upstream*i+4]],
+                &f=properties[access_pattern[num_upstream*i+5]],
+                &g=properties[access_pattern[num_upstream*i+6]],
+                &h=properties[access_pattern[num_upstream*i+7]],
+                &j=properties[access_pattern[num_upstream*i+8]],
+                &k=properties[access_pattern[num_upstream*i+9]],
+                &l=properties[access_pattern[num_upstream*i+10]],
+                &m=properties[access_pattern[num_upstream*i+11]],
+                &n=properties[access_pattern[num_upstream*i+12]],
+                &o=properties[access_pattern[num_upstream*i+13]],
+                &p=properties[access_pattern[num_upstream*i+14]],
+                &q=properties[access_pattern[num_upstream*i+15]]
         ;
         properties2[i].setBinding(
                 [&](){

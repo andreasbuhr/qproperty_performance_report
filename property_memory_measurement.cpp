@@ -71,7 +71,7 @@ auto new_memory_usage_for_binding_1(){
     std::vector<int> access_pattern;
     int num_upstream = 1;
     for(int i = 0; i < num_samples; ++i){
-        for(int i = 0; i < num_upstream; ++i){
+        for(int j = 0; j < num_upstream; ++j){
             access_pattern.push_back(i);
         }
     }
@@ -131,6 +131,15 @@ auto new_memory_usage_for_binding_1(){
 }
 
 auto new_memory_usage_for_binding_2(){
+    std::vector<int> access_pattern;
+    int num_upstream = 2;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<Property<int>> properties(num_samples);
     for(auto& p : properties)
         p.setValue(5);
@@ -142,8 +151,8 @@ auto new_memory_usage_for_binding_2(){
                 [](int a, int b){
                     return a + b;
                 },
-                properties[i],
-                properties[i+1]
+                properties[access_pattern[num_upstream*i+0]],
+                properties[access_pattern[num_upstream*i+1]]
                 );
         properties2[i].value();
     }
@@ -186,6 +195,15 @@ auto new_memory_usage_for_binding_2(){
 }
 
 auto new_memory_usage_for_binding_3(){
+    std::vector<int> access_pattern;
+    int num_upstream = 3;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<Property<int>> properties(num_samples);
     for(auto& p : properties)
         p.setValue(5);
@@ -197,9 +215,9 @@ auto new_memory_usage_for_binding_3(){
                 [](int a, int b, int c){
                     return a + b + c;
                 },
-                properties[i],
-                properties[i+1],
-                properties[i+2]
+                properties[access_pattern[num_upstream*i+0]],
+                properties[access_pattern[num_upstream*i+1]],
+                properties[access_pattern[num_upstream*i+2]]
                 );
         properties2[i].value();
     }
@@ -242,6 +260,15 @@ auto new_memory_usage_for_binding_3(){
 }
 
 auto new_memory_usage_for_binding_4(){
+    std::vector<int> access_pattern;
+    int num_upstream = 4;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<Property<int>> properties(num_samples);
     for(auto& p : properties)
         p.setValue(5);
@@ -253,10 +280,10 @@ auto new_memory_usage_for_binding_4(){
                 [](int a, int b, int c, int d){
                     return a + b + c + d;
                 },
-                properties[i],
-                properties[i+1],
-                properties[i+2],
-                properties[i+3]
+                properties[access_pattern[num_upstream*i+0]],
+                properties[access_pattern[num_upstream*i+1]],
+                properties[access_pattern[num_upstream*i+2]],
+                properties[access_pattern[num_upstream*i+3]]
                 );
         properties2[i].value();
     }
@@ -300,6 +327,15 @@ auto new_memory_usage_for_binding_4(){
 
 
 auto new_memory_usage_for_binding_5(){
+    std::vector<int> access_pattern;
+    int num_upstream = 5;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<Property<int>> properties(num_samples);
     for(auto& p : properties)
         p.setValue(5);
@@ -311,11 +347,11 @@ auto new_memory_usage_for_binding_5(){
                 [](int a, int b, int c, int d, int e){
                     return a + b + c + d + e;
                 },
-                properties[i],
-                properties[i+1],
-                properties[i+2],
-                properties[i+3],
-                properties[i+4]);
+                properties[access_pattern[num_upstream*i+0]],
+                properties[access_pattern[num_upstream*i+1]],
+                properties[access_pattern[num_upstream*i+2]],
+                properties[access_pattern[num_upstream*i+3]],
+                properties[access_pattern[num_upstream*i+4]]);
         properties2[i].value();
     }
     double endtime = omp_get_wtime();
@@ -357,6 +393,15 @@ auto new_memory_usage_for_binding_5(){
 }
 
 auto new_memory_usage_for_binding_6(){
+    std::vector<int> access_pattern;
+    int num_upstream = 6;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<Property<int>> properties(num_samples);
     for(auto& p : properties)
         p.setValue(5);
@@ -369,12 +414,12 @@ auto new_memory_usage_for_binding_6(){
                     return a + b + c + d + e
                            + f;
                 },
-                properties[i],
-                properties[i+1],
-                properties[i+2],
-                properties[i+3],
-                properties[i+4],
-                properties[i+5]);
+                properties[access_pattern[num_upstream*i+0]],
+                properties[access_pattern[num_upstream*i+1]],
+                properties[access_pattern[num_upstream*i+2]],
+                properties[access_pattern[num_upstream*i+3]],
+                properties[access_pattern[num_upstream*i+4]],
+                properties[access_pattern[num_upstream*i+5]]);
         properties2[i].value();
     }
     double endtime = omp_get_wtime();
@@ -416,6 +461,15 @@ auto new_memory_usage_for_binding_6(){
 }
 
 auto new_memory_usage_for_binding_7(){
+    std::vector<int> access_pattern;
+    int num_upstream = 7;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<Property<int>> properties(num_samples);
     for(auto& p : properties)
         p.setValue(5);
@@ -428,13 +482,13 @@ auto new_memory_usage_for_binding_7(){
                     return a + b + c + d + e
                            + f, + g;
                 },
-                properties[i],
-                properties[i+1],
-                properties[i+2],
-                properties[i+3],
-                properties[i+4],
-                properties[i+5],
-                properties[i+6]);
+                properties[access_pattern[num_upstream*i+0]],
+                properties[access_pattern[num_upstream*i+1]],
+                properties[access_pattern[num_upstream*i+2]],
+                properties[access_pattern[num_upstream*i+3]],
+                properties[access_pattern[num_upstream*i+4]],
+                properties[access_pattern[num_upstream*i+5]],
+                properties[access_pattern[num_upstream*i+6]]);
         properties2[i].value();
     }
     double endtime = omp_get_wtime();
@@ -476,6 +530,15 @@ auto new_memory_usage_for_binding_7(){
 }
 
 auto new_memory_usage_for_binding_8(){
+    std::vector<int> access_pattern;
+    int num_upstream = 8;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<Property<int>> properties(num_samples);
     for(auto& p : properties)
         p.setValue(5);
@@ -488,14 +551,14 @@ auto new_memory_usage_for_binding_8(){
                     return a + b + c + d + e
                            + f, + g + h;
                 },
-                properties[i],
-                properties[i+1],
-                properties[i+2],
-                properties[i+3],
-                properties[i+4],
-                properties[i+5],
-                properties[i+6],
-                properties[i+7]);
+                properties[access_pattern[num_upstream*i+0]],
+                properties[access_pattern[num_upstream*i+1]],
+                properties[access_pattern[num_upstream*i+2]],
+                properties[access_pattern[num_upstream*i+3]],
+                properties[access_pattern[num_upstream*i+4]],
+                properties[access_pattern[num_upstream*i+5]],
+                properties[access_pattern[num_upstream*i+6]],
+                properties[access_pattern[num_upstream*i+7]]);
         properties2[i].value();
     }
     double endtime = omp_get_wtime();
@@ -537,6 +600,15 @@ auto new_memory_usage_for_binding_8(){
 }
 
 auto new_memory_usage_for_binding_9(){
+    std::vector<int> access_pattern;
+    int num_upstream = 9;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<Property<int>> properties(num_samples);
     for(auto& p : properties)
         p.setValue(5);
@@ -549,15 +621,15 @@ auto new_memory_usage_for_binding_9(){
                     return a + b + c + d + e
                            + f, + g + h + j;
                 },
-                properties[i],
-                properties[i+1],
-                properties[i+2],
-                properties[i+3],
-                properties[i+4],
-                properties[i+5],
-                properties[i+6],
-                properties[i+7],
-                properties[i+8]);
+                properties[access_pattern[num_upstream*i+0]],
+                properties[access_pattern[num_upstream*i+1]],
+                properties[access_pattern[num_upstream*i+2]],
+                properties[access_pattern[num_upstream*i+3]],
+                properties[access_pattern[num_upstream*i+4]],
+                properties[access_pattern[num_upstream*i+5]],
+                properties[access_pattern[num_upstream*i+6]],
+                properties[access_pattern[num_upstream*i+7]],
+                properties[access_pattern[num_upstream*i+8]]);
         properties2[i].value();
     }
     double endtime = omp_get_wtime();
@@ -600,6 +672,15 @@ auto new_memory_usage_for_binding_9(){
 
 
 auto new_memory_usage_for_binding_10(){
+    std::vector<int> access_pattern;
+    int num_upstream = 10;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<Property<int>> properties(num_samples);
     for(auto& p : properties)
         p.setValue(5);
@@ -612,16 +693,16 @@ auto new_memory_usage_for_binding_10(){
                     return a + b + c + d + e
                            + f, + g + h + j + k;
                 },
-                properties[i],
-                properties[i+1],
-                properties[i+2],
-                properties[i+3],
-                properties[i+4],
-                properties[i+5],
-                properties[i+6],
-                properties[i+7],
-                properties[i+8],
-                properties[i+9]);
+                properties[access_pattern[num_upstream*i+0]],
+                properties[access_pattern[num_upstream*i+1]],
+                properties[access_pattern[num_upstream*i+2]],
+                properties[access_pattern[num_upstream*i+3]],
+                properties[access_pattern[num_upstream*i+4]],
+                properties[access_pattern[num_upstream*i+5]],
+                properties[access_pattern[num_upstream*i+6]],
+                properties[access_pattern[num_upstream*i+7]],
+                properties[access_pattern[num_upstream*i+8]],
+                properties[access_pattern[num_upstream*i+9]]);
         properties2[i].value();
     }
     double endtime = omp_get_wtime();
@@ -664,6 +745,15 @@ auto new_memory_usage_for_binding_10(){
 
 
 auto new_memory_usage_for_binding_11(){
+    std::vector<int> access_pattern;
+    int num_upstream = 11;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<Property<int>> properties(num_samples);
     for(auto& p : properties)
         p.setValue(5);
@@ -677,17 +767,17 @@ auto new_memory_usage_for_binding_11(){
                            + f, + g + h + j + k
                                         + l;
                 },
-                properties[i],
-                properties[i+1],
-                properties[i+2],
-                properties[i+3],
-                properties[i+4],
-                properties[i+5],
-                properties[i+6],
-                properties[i+7],
-                properties[i+8],
-                properties[i+9],
-                properties[i+10]);
+                properties[access_pattern[num_upstream*i+0]],
+                properties[access_pattern[num_upstream*i+1]],
+                properties[access_pattern[num_upstream*i+2]],
+                properties[access_pattern[num_upstream*i+3]],
+                properties[access_pattern[num_upstream*i+4]],
+                properties[access_pattern[num_upstream*i+5]],
+                properties[access_pattern[num_upstream*i+6]],
+                properties[access_pattern[num_upstream*i+7]],
+                properties[access_pattern[num_upstream*i+8]],
+                properties[access_pattern[num_upstream*i+9]],
+                properties[access_pattern[num_upstream*i+10]]);
         properties2[i].value();
     }
     double endtime = omp_get_wtime();
@@ -730,6 +820,15 @@ auto new_memory_usage_for_binding_11(){
 
 
 auto new_memory_usage_for_binding_12(){
+    std::vector<int> access_pattern;
+    int num_upstream = 12;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<Property<int>> properties(num_samples);
     for(auto& p : properties)
         p.setValue(5);
@@ -743,18 +842,18 @@ auto new_memory_usage_for_binding_12(){
                            + f, + g + h + j + k
                                         + l + m;
                 },
-                properties[i],
-                properties[i+1],
-                properties[i+2],
-                properties[i+3],
-                properties[i+4],
-                properties[i+5],
-                properties[i+6],
-                properties[i+7],
-                properties[i+8],
-                properties[i+9],
-                properties[i+10],
-                properties[i+11]);
+                properties[access_pattern[num_upstream*i+0]],
+                properties[access_pattern[num_upstream*i+1]],
+                properties[access_pattern[num_upstream*i+2]],
+                properties[access_pattern[num_upstream*i+3]],
+                properties[access_pattern[num_upstream*i+4]],
+                properties[access_pattern[num_upstream*i+5]],
+                properties[access_pattern[num_upstream*i+6]],
+                properties[access_pattern[num_upstream*i+7]],
+                properties[access_pattern[num_upstream*i+8]],
+                properties[access_pattern[num_upstream*i+9]],
+                properties[access_pattern[num_upstream*i+10]],
+                properties[access_pattern[num_upstream*i+11]]);
         properties2[i].value();
     }
     double endtime = omp_get_wtime();
@@ -797,6 +896,15 @@ auto new_memory_usage_for_binding_12(){
 
 
 auto new_memory_usage_for_binding_16(){
+    std::vector<int> access_pattern;
+    int num_upstream = 16;
+    for(int i = 0; i < num_samples; ++i){
+        for(int j = 0; j < num_upstream; ++j){
+            access_pattern.push_back(i);
+        }
+    }
+    std::random_shuffle(access_pattern.begin(), access_pattern.end());
+
     std::vector<Property<int>> properties(num_samples);
     for(auto& p : properties)
         p.setValue(5);
@@ -811,22 +919,22 @@ auto new_memory_usage_for_binding_16(){
                                 + l + m + n + o + p
                                 + q;
                 },
-                properties[i],
-                properties[i+1],
-                properties[i+2],
-                properties[i+3],
-                properties[i+4],
-                properties[i+5],
-                properties[i+6],
-                properties[i+7],
-                properties[i+8],
-                properties[i+9],
-                properties[i+10],
-                properties[i+11],
-                properties[i+12],
-                properties[i+13],
-                properties[i+14],
-                properties[i+15]
+                properties[access_pattern[num_upstream*i+0]],
+                properties[access_pattern[num_upstream*i+1]],
+                properties[access_pattern[num_upstream*i+2]],
+                properties[access_pattern[num_upstream*i+3]],
+                properties[access_pattern[num_upstream*i+4]],
+                properties[access_pattern[num_upstream*i+5]],
+                properties[access_pattern[num_upstream*i+6]],
+                properties[access_pattern[num_upstream*i+7]],
+                properties[access_pattern[num_upstream*i+8]],
+                properties[access_pattern[num_upstream*i+9]],
+                properties[access_pattern[num_upstream*i+10]],
+                properties[access_pattern[num_upstream*i+11]],
+                properties[access_pattern[num_upstream*i+12]],
+                properties[access_pattern[num_upstream*i+13]],
+                properties[access_pattern[num_upstream*i+14]],
+                properties[access_pattern[num_upstream*i+15]]
         );
         properties2[i].value();
     }

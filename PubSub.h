@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <iostream>
 #include <memory>
+#include <cassert>
 
 class UntypedBinding;
 
@@ -85,7 +86,7 @@ template<typename T, typename Callable, typename... Props>
 class Binding : public UntypedBinding {
 public:
     explicit Binding(Property<T>* myProperty, Callable c, Props ...props);
-    ~Binding();
+    ~Binding() override final;
 private:
     void evaluation() override final;
 
@@ -96,6 +97,12 @@ private:
 
 class UntypedProperty{
 public:
+    UntypedProperty() = default;
+    UntypedProperty(const UntypedProperty&) = delete;
+    UntypedProperty(UntypedProperty&&) = delete;
+    UntypedProperty& operator=(const UntypedProperty&) = delete;
+    UntypedProperty& operator=(UntypedProperty&&) = delete;
+
     void markDirty() const;
     void potentialEagerEvaluation() const;
 
@@ -143,9 +150,10 @@ Binding<T, Callable, Props...>::Binding(Property<T>* myProperty, Callable c, Pro
 template<typename T, typename Callable, typename... Probs>
 Binding<T, Callable, Probs...>::~Binding() {
     // disconnect from publishers:
-    std::apply([this](Probs... p){
-        (disconnectFromUpstreamProperty(&p), ...);
-    }, upstreamProperties_);
+    if(!broken_)
+        std::apply([this](Probs... p){
+            (disconnectFromUpstreamProperty(&p), ...);
+        }, upstreamProperties_);
 }
 
 template<typename T, typename Callable, typename... Probs>
@@ -191,6 +199,7 @@ void Property<T>::setBinding(const Callable &c, Probs &&... args) {
     using result_type = decltype(c(args.value()...));
     static_assert(std::is_same_v<result_type, T>, "incompatible return type");
 
+    assert(! ((&args == this) || ... ));
     if(publisher_.get() == nullptr)
         publisher_.reset(new UntypedPublisher);
 

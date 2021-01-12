@@ -16,22 +16,6 @@
 
 \begin{document}
 \maketitle
-\section{Read Performance}
-\subsection{Read From Old-Style Property}
-\subsection{Read From QProperty}
-\subsubsection{Read From Value}
-\subsubsection{Read From Binding}
-\subsection{Read From QObjectBindableProperty}
-\subsubsection{Read From Value}
-\subsubsection{Read From Binding}
-\section{Write Performance}
-\subsection{Write to Old-Style Property}
-\subsection{Write to QProperty}
-\subsubsection{Without Observers}
-\subsubsection{With Observers}
-\subsection{Write to QObjectBindableProperty}
-\subsubsection{Without Observers}
-\subsubsection{With Observers}
 \section{Memory Requirements}
 \pgfplotstabletypeset[
     columns/name/.style={column type=|l, string type %
@@ -43,10 +27,17 @@
         \begin{axis}[
         title=Memory usage per binding,
         xlabel=number of upstream properties,
-        ylabel=memory usage in bytes,
+        ylabel=bytes,
+        legend pos=outer north east
         ]
             \addplot table {binding_memusage.txt};
+            \addlegendentry{existing};
+        \addplot[mark=None,domain=0:16] {32*x+160};
+        \addlegendentry{32b/prop+160}
             \addplot table {newbinding_memusage.txt};
+            \addlegendentry{proposed};
+        \addplot[mark=None,domain=0:16] {16*x+180};
+        \addlegendentry{16b/prop+180}
             \end{axis}
     \end{tikzpicture}
 
@@ -82,12 +73,19 @@
 
 \begin{tikzpicture}
     \begin{axis}[
-        title=Evaluation time of dirty binding (cold cache),
+        title=Read dirty binding (cold cache),
         xlabel=number of upstream properties,
-        ylabel=time for dirty read in ns,
+        ylabel=time for dirty read in s,
+        legend pos=outer north east,
     ]
         \addplot table {binding_dirtyread.txt};
+        \addlegendentry{existing};
+        \addplot[mark=None,domain=0:16] {140e-9*x};
+        \addlegendentry{140ns/prop}
         \addplot table {newbinding_dirtyread.txt};
+        \addlegendentry{proposed};
+        \addplot[mark=None,domain=0:16] {50e-9*x};
+        \addlegendentry{50ns/prop}
     \end{axis}
 \end{tikzpicture}
 
